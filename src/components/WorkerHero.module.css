@@ -1,0 +1,135 @@
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp .4s ease both;
+    flex-wrap: wrap;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.photoWrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.photo {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--border);
+}
+
+.onlineDot {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    width: 12px;
+    height: 12px;
+    background: #22C55E;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.nameRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+.name {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+.roleTag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    background: var(--blue-light);
+    color: var(--blue);
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid rgba(30, 59, 183, .2);
+}
+
+.meta {
+    font-size: 12.5px;
+    color: var(--text-mid);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.sep {
+    color: var(--text-light);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btnOutline {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: var(--font);
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: border-color .2s, background .2s;
+}
+
+.btnOutline:hover {
+    border-color: var(--blue);
+    background: var(--blue-light);
+    color: var(--blue);
+}
+
+.btnPrimary {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0 14px;
+    background: var(--blue);
+    border: none;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: var(--font);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(30, 59, 183, .3);
+    transition: background .2s;
+}
+
+.btnPrimary:hover {
+    background: var(--blue-deep);
+}

@@ -1,0 +1,217 @@
+.nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    height: 68px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+}
+
+.inner {
+    max-width: 100%;
+    padding: 0 24px 0 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    margin-right: 28px;
+}
+
+.logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: transparent;
+}
+
+.logoImg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.brandText {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-dark);
+    white-space: nowrap;
+}
+
+/* Nav links */
+.links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    height: 36px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    color: var(--text-mid);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .18s, color .18s;
+}
+
+.link:hover {
+    background: var(--bg);
+    color: var(--text-dark);
+}
+
+.active {
+    color: var(--blue) !important;
+    font-weight: 700 !important;
+    background: var(--blue-light) !important;
+}
+
+.badge {
+    min-width: 18px;
+    height: 18px;
+    background: #EF4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 9px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.active .badge {
+    background: var(--blue-deep);
+}
+
+/* Right controls */
+.right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.iconBtn {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .2s;
+}
+
+.iconBtn svg {
+    width: 16px;
+    height: 16px;
+    color: var(--text-mid);
+}
+
+.iconBtn:hover {
+    border-color: var(--blue);
+}
+
+.notifDot {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 7px;
+    height: 7px;
+    background: #EF4444;
+    border-radius: 50%;
+    border: 1.5px solid white;
+}
+
+.adminWrap {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.adminInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.adminName {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-dark);
+    line-height: 1.2;
+}
+
+.adminRole {
+    font-size: 11px;
+    color: var(--text-light);
+}
+
+.adminAvatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #F97316;
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+    .links {
+        gap: 0;
+    }
+
+    .link {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .adminInfo {
+        display: none;
+    }
+}
+
+@media (max-width: 680px) {
+    .link {
+        display: none;
+    }
+
+    .link.active {
+        display: flex;
+    }
+}

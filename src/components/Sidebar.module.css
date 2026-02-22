@@ -1,0 +1,153 @@
+.sidebar {
+    width: 196px;
+    min-height: 100vh;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 20px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 18px 16px 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+}
+
+.brandLogo {
+    width: 32px;
+    height: 32px;
+    background: var(--blue);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.brandName {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-dark);
+}
+
+/* Nav */
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 10px;
+    flex: 1;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    color: var(--text-mid);
+    cursor: pointer;
+    text-align: left;
+    transition: background .18s, color .18s;
+    position: relative;
+    width: 100%;
+}
+
+.navItem:hover {
+    background: var(--bg);
+    color: var(--text-dark);
+}
+
+.navActive {
+    background: var(--blue) !important;
+    color: white !important;
+    font-weight: 700;
+}
+
+.navIcon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.navLabel {
+    flex: 1;
+}
+
+.badge {
+    min-width: 20px;
+    height: 20px;
+    background: #EF4444;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+}
+
+.navActive .badge {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Help card */
+.helpCard {
+    margin: 16px 10px 0;
+    background: var(--blue-light);
+    border: 1.5px solid rgba(30, 59, 183, 0.2);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+}
+
+.helpTitle {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    color: var(--blue);
+    margin-bottom: 6px;
+}
+
+.helpText {
+    font-size: 11.5px;
+    color: var(--text-mid);
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.helpBtn {
+    width: 100%;
+    height: 32px;
+    background: var(--white);
+    border: 1.5px solid rgba(30, 59, 183, 0.3);
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font);
+    color: var(--blue);
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.helpBtn:hover {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+}
