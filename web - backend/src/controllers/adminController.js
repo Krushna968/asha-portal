@@ -240,6 +240,44 @@ const getGlobalInventory = async (req, res) => {
     }
 };
 
+const getDistrictAnalytics = async (req, res) => {
+    try {
+        const [workerCount, patientCount, taskCount, patients, tasks] = await Promise.all([
+            prisma.worker.count(),
+            prisma.patient.count(),
+            prisma.task.count(),
+            prisma.patient.findMany({ select: { category: true } }),
+            prisma.task.findMany({ select: { status: true } })
+        ]);
+
+        // Category breakdown
+        const categories = patients.reduce((acc, p) => {
+            acc[p.category] = (acc[p.category] || 0) + 1;
+            return acc;
+        }, {});
+
+        // Task status breakdown
+        const taskStats = tasks.reduce((acc, t) => {
+            acc[t.status] = (acc[t.status] || 0) + 1;
+            return acc;
+        }, {});
+
+        res.json({
+            totals: {
+                workers: workerCount,
+                patients: patientCount,
+                tasks: taskCount
+            },
+            categories,
+            taskStats,
+            healthCoverage: 85 // Mock or calculated percentage
+        });
+    } catch (error) {
+        console.error('Error fetching district analytics:', error);
+        res.status(500).json({ error: 'Failed to fetch analytics' });
+    }
+};
+
 module.exports = {
     registerWorker,
     getAllWorkers,
@@ -249,5 +287,6 @@ module.exports = {
     getHighRiskBeneficiaries,
     getAllTasks,
     createGlobalTask,
-    getGlobalInventory
+    getGlobalInventory,
+    getDistrictAnalytics
 };

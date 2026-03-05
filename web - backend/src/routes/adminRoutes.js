@@ -34,4 +34,7 @@ router.post('/tasks', createGlobalTask);
 // Inventory
 router.get('/inventory', getGlobalInventory);
 
+// Analytics
+router.get('/analytics', getDistrictAnalytics);
+
 module.exports = router;

@@ -7,6 +7,7 @@ import BeneficiariesListPage from './pages/BeneficiariesListPage'
 import HighRiskTrackerPage from './pages/HighRiskTrackerPage'
 import TasksPage from './pages/TasksPage'
 import InventoryPage from './pages/InventoryPage'
+import AnalyticsPage from './pages/AnalyticsPage'
 import RegisterWorker from './pages/RegisterWorker'
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/high-risk" element={<HighRiskTrackerPage />} />
         <Route path="/tasks" element={<TasksPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
+        <Route path="/reports" element={<AnalyticsPage />} />
         <Route path="/register-worker" element={<RegisterWorker />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

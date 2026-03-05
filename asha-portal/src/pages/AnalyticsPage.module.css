@@ -1,0 +1,185 @@
+.page {
+    min-height: 100vh;
+    background-color: #0f172a;
+    color: white;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 24px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(96, 165, 250, 0.5);
+}
+
+.cardLabel {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 0.1em;
+}
+
+.cardValue {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0.5rem 0;
+    color: white;
+}
+
+.cardTrend {
+    font-size: 0.875rem;
+    color: #10b981;
+    font-weight: 600;
+}
+
+.chartSection {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+.chartCard {
+    background: rgba(30, 41, 59, 0.5);
+    padding: 2rem;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chartCard h3 {
+    margin-top: 0;
+    color: #cbd5e1;
+    font-size: 1.125rem;
+}
+
+.barChart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    height: 250px;
+    margin-top: 2rem;
+}
+
+.barColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.bar {
+    width: 40px;
+    background: linear-gradient(to top, #3b82f6, #60a5fa);
+    border-radius: 8px 8px 4px 4px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar span {
+    position: absolute;
+    top: -25px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #60a5fa;
+}
+
+.barLabel {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+}
+
+.donutPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.circularChart {
+    display: block;
+    margin: 10px auto;
+    max-width: 80%;
+    max-height: 250px;
+}
+
+.circleBg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.05);
+    stroke-width: 3.8;
+}
+
+.circle {
+    fill: none;
+    stroke-width: 3.8;
+    stroke-linecap: round;
+    animation: progress 1s ease-out forwards;
+    stroke: #8b5cf6;
+}
+
+@keyframes progress {
+    0% {
+        stroke-dasharray: 0 100;
+    }
+}
+
+.percentage {
+    fill: white;
+    font-size: 0.5rem;
+    text-anchor: middle;
+    font-weight: 800;
+}
+
+.donutPlaceholder p {
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-top: 1rem;
+}
+
+.loader {
+    padding: 5rem;
+    text-align: center;
+    color: #60a5fa;
+    font-size: 1.25rem;
+    font-weight: 700;
+    height: 100vh;
+    background: #0f172a;
+}
+
+.error {
+    padding: 5rem;
+    text-align: center;
+    color: #ef4444;
+}

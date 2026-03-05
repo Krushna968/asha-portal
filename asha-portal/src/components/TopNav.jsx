@@ -8,8 +8,8 @@ const NAV = [
     { id: 'high-risk', label: 'High-Risk Tracker', path: '/high-risk' },
     { id: 'tasks', label: 'Global Task Board', path: '/tasks' },
     { id: 'inventory', label: 'Inventory Monitoring', path: '/inventory' },
+    { id: 'reports', label: 'Health Analytics', path: '/reports' },
     { id: 'register', label: 'Register Worker', path: '/register-worker' },
-    { id: 'reports', label: 'Reports', path: null },
     { id: 'messages', label: 'Messages', path: null, badge: 4 },
 ]
 
