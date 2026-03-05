@@ -1,13 +1,13 @@
 import styles from './DonutChart.module.css'
 
 const SEGMENTS = [
-    { label: 'Prenatal Care', pct: 45, color: '#1E3BB7' },
-    { label: 'Immunization', pct: 30, color: '#6B8EEF' },
-    { label: 'Hygiene', pct: 15, color: '#C7D2F8' },
-    { label: 'Other', pct: 10, color: '#E8EAF6' },
+    { label: 'Prenatal Care', pct: 45, color: '#003399' },
+    { label: 'Immunization', pct: 30, color: '#0055ff' },
+    { label: 'Hygiene', pct: 15, color: '#3399ff' },
+    { label: 'Other', pct: 10, color: '#99ccff' },
 ]
 
-// Build SVG arc paths for donut chart
+// Build SVG arc paths for donut chart (unchanged logic)
 function buildArcs(segments, cx, cy, r, strokeW) {
     const circumference = 2 * Math.PI * r
     let offset = 0
@@ -21,7 +21,8 @@ function buildArcs(segments, cx, cy, r, strokeW) {
 }
 
 export default function DonutChart({ total = 432 }) {
-    const cx = 90, cy = 90, r = 65, sw = 22
+    // Increased dimensions for bigger circle
+    const cx = 110, cy = 110, r = 85, sw = 30
     const arcs = buildArcs(SEGMENTS, cx, cy, r, sw)
     const circumference = 2 * Math.PI * r
 
@@ -33,7 +34,7 @@ export default function DonutChart({ total = 432 }) {
             </div>
             <div className={styles.body}>
                 <div className={styles.chartWrap}>
-                    <svg viewBox="0 0 180 180" className={styles.svg}>
+                    <svg viewBox="0 0 220 220" className={styles.svg}>
                         {arcs.map((arc, i) => (
                             <circle
                                 key={i}
@@ -44,19 +45,21 @@ export default function DonutChart({ total = 432 }) {
                                 strokeDasharray={`${arc.dash} ${arc.gap}`}
                                 strokeDashoffset={-arc.offset + circumference / 4}
                                 className={styles.arc}
-                                style={{ transition: `stroke-dasharray .6s ease ${i * 0.1}s` }}
+                                style={{ transition: `stroke-dasharray .8s ease ${i * 0.12}s` }}
                             />
                         ))}
                         {/* centre text */}
-                        <text x={cx} y={cy - 6} textAnchor="middle" className={styles.centreVal}>{total}</text>
-                        <text x={cx} y={cy + 12} textAnchor="middle" className={styles.centreLabel}>TOTAL REPORTS</text>
+                        <g className={styles.centreGroup}>
+                            <text x={cx} y={cy - 8} textAnchor="middle" className={styles.centreVal}>{total}</text>
+                            <text x={cx} y={cy + 14} textAnchor="middle" className={styles.centreLabel}>TOTAL REPORTS</text>
+                        </g>
                     </svg>
                 </div>
                 <div className={styles.legend}>
                     {SEGMENTS.map(({ label, pct, color }) => (
                         <div key={label} className={styles.legendItem}>
                             <span className={styles.dot} style={{ background: color }} />
-                            <span className={styles.legendLabel}>{label}</span>
+                            <span className={styles.legendLabel} style={{ color: color }}>{label}</span>
                             <span className={styles.legendPct}>{pct}%</span>
                         </div>
                     ))}

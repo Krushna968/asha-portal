@@ -13,38 +13,63 @@ export default function BeneficiariesListPage() {
 
     useEffect(() => {
         const fetchBeneficiaries = async () => {
-            try {
-                const token = localStorage.getItem('asha_token')
-                if (!token) {
-                    navigate('/')
-                    return
-                }
+            setLoading(true)
+            const names = [
+                "Aarav Sharma", "Aditi Patel", "Advait Rao", "Akansha Gupta", "Amit Mishra",
+                "Amrita Singh", "Ananya Jha", "Anika Verma", "Aniruddh Kulkarni", "Anita Devi",
+                "Anjali Deshmukh", "Ankit Joshi", "Anshul Saxena", "Archana Nair", "Arjun Reddy",
+                "Arpita Bose", "Aryan Khan", "Asha Rani", "Avni Kapoor", "Bhavya Jain",
+                "Chitra Iyer", "Deepak Kumar", "Divya Chauhan", "Eshaan Thakur", "Gayatri Pandey",
+                "Harsh Vardhan", "Isha Malhotra", "Ishaan Bhatt", "Jiya Sethi", "Kabir Das",
+                "Kanishka Goyal", "Kartik Aryan", "Kavita Krishnan", "Khushi Shah", "Kunal Roy",
+                "Lakshmi Bai", "Manisha Koirala", "Meera Bai", "Mohan Lal", "Nandini Murthy",
+                "Naveen Polishetty", "Neha Dhupia", "Nikhil Gupta", "Pallavi Sharda", "Pooja Hegde",
+                "Pratik Gandhi", "Rahul Dravid", "Rajesh Bose", "Rohan Vinayak", "Sanjay Dutt",
+                "Sarita Devi", "Tanmay Joshi", "Urvashi Rautela", "Vihaan Malhotra", "Yash Mehra"
+            ];
 
-                const res = await fetch('http://localhost:3001/api/admin/beneficiaries', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                })
+            const workers = [
+                { name: "Krushna Rasal", village: "Central Block" },
+                { name: "Sunita Kumari", village: "Malur Block" },
+                { name: "Priya Devi", village: "Hosur North" },
+                { name: "Rekha Murthy", village: "Block C South" },
+                { name: "Fatima Nasser", village: "East Sector" }
+            ];
 
-                if (res.ok) {
-                    const data = await res.json()
-                    setBeneficiaries(data)
-                } else {
-                    setError('Failed to fetch beneficiaries')
-                }
-            } catch (err) {
-                console.error(err)
-                setError('Network error connecting to backend')
-            } finally {
+            const intensities = ["HIGH", "MODERATE", "LOW"];
+            const categories = ["ANC", "PNC", "INFANT", "GENERAL"];
+
+            const dummyResidents = names.map((name, i) => {
+                const worker = workers[i % workers.length];
+                return {
+                    id: `res-${i + 1}`,
+                    name,
+                    category: categories[Math.floor(Math.random() * categories.length)],
+                    intensity: intensities[Math.floor(Math.random() * intensities.length)],
+                    age: Math.floor(Math.random() * 60) + 1,
+                    worker: {
+                        name: worker.name,
+                        village: worker.village
+                    },
+                    updatedAt: new Date(Date.now() - Math.floor(Math.random() * 10) * 86400000).toISOString()
+                };
+            });
+
+            setTimeout(() => {
+                setBeneficiaries(dummyResidents)
                 setLoading(false)
-            }
+            }, 500)
         }
 
         fetchBeneficiaries()
     }, [navigate])
 
     const filtered = beneficiaries.filter(b => {
-        const matchesSearch = b.name.toLowerCase().includes(search.toLowerCase()) ||
-            b.address.toLowerCase().includes(search.toLowerCase()) ||
-            b.worker?.name.toLowerCase().includes(search.toLowerCase())
+        const query = search.toLowerCase()
+        const matchesSearch =
+            (b.name || "").toLowerCase().includes(query) ||
+            (b.worker?.village || "").toLowerCase().includes(query) ||
+            (b.worker?.name || "").toLowerCase().includes(query)
 
         const matchesCategory = filterCategory === 'ALL' || b.category === filterCategory
 
@@ -60,8 +85,8 @@ export default function BeneficiariesListPage() {
             <div className={styles.content}>
                 <div className={styles.header}>
                     <div>
-                        <h1 className={styles.title}>Beneficiary Directory</h1>
-                        <p className={styles.subtitle}>Track health records for all patients across the district.</p>
+                        <h1 className={styles.title}>Resident Directory</h1>
+                        <p className={styles.subtitle}>Track health records for all residents across the district.</p>
                     </div>
                 </div>
 
@@ -97,8 +122,9 @@ export default function BeneficiariesListPage() {
                         <table className={styles.table}>
                             <thead>
                                 <tr>
-                                    <th>Patient Name</th>
+                                    <th>Resident Name</th>
                                     <th>Category</th>
+                                    <th>Risk Intensity</th>
                                     <th>Age</th>
                                     <th>Village</th>
                                     <th>Assigned ASHA</th>
@@ -118,6 +144,11 @@ export default function BeneficiariesListPage() {
                                         <td>
                                             <span className={`${styles.tag} ${styles['tag' + b.category]}`}>
                                                 {b.category}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span className={`${styles.tag} ${styles['tag' + b.intensity]}`}>
+                                                {b.intensity}
                                             </span>
                                         </td>
                                         <td>{b.age} yrs</td>

@@ -176,6 +176,25 @@
     color: #475569;
 }
 
+.tagHIGH {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fee2e2;
+}
+
+.tagMODERATE {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fef3c7;
+}
+
+.tagLOW {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #dcfce7;
+}
+
+
 .btnView {
     padding: 0.5rem 1rem;
     background: white;

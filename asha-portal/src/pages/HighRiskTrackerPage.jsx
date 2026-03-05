@@ -11,29 +11,80 @@ export default function HighRiskTrackerPage() {
 
     useEffect(() => {
         const fetchHighRisk = async () => {
-            try {
-                const token = localStorage.getItem('asha_token')
-                if (!token) {
-                    navigate('/')
-                    return
-                }
+            setLoading(true)
 
-                const res = await fetch('http://localhost:3001/api/admin/high-risk', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                })
-
-                if (res.ok) {
-                    const data = await res.json()
-                    setCases(data)
-                } else {
-                    setError('Failed to fetch high risk cases')
+            // Filtered set of High Risk Residents
+            const highRiskData = [
+                {
+                    id: 'res-3',
+                    name: "Advait Rao",
+                    category: "ANC",
+                    age: 24,
+                    worker: { name: "Krushna Rasal", village: "Central Block", mobileNumber: "9876543210" },
+                    visitHistory: [{ bloodPressure: "150/95", weight: 62 }]
+                },
+                {
+                    id: 'res-4',
+                    name: "Akansha Gupta",
+                    category: "PNC",
+                    age: 28,
+                    worker: { name: "Sunita Kumari", village: "Malur Block", mobileNumber: "9823456781" },
+                    visitHistory: [{ bloodPressure: "138/88", weight: 58 }]
+                },
+                {
+                    id: 'res-8',
+                    name: "Anika Verma",
+                    category: "ANC",
+                    age: 31,
+                    worker: { name: "Priya Devi", village: "Hosur North", mobileNumber: "8812345678" },
+                    visitHistory: [{ bloodPressure: "145/92", weight: 65 }]
+                },
+                {
+                    id: 'res-10',
+                    name: "Anita Devi",
+                    category: "ANC",
+                    age: 35,
+                    worker: { name: "Fatima Nasser", village: "East Sector", mobileNumber: "9011223344" },
+                    visitHistory: [{ bloodPressure: "155/100", weight: 70 }]
+                },
+                {
+                    id: 'res-15',
+                    name: "Arjun Reddy",
+                    category: "GENERAL",
+                    age: 42,
+                    worker: { name: "Fatima Nasser", village: "East Sector", mobileNumber: "9011223344" },
+                    visitHistory: [{ bloodPressure: "160/105", weight: 82 }]
+                },
+                {
+                    id: 'res-21',
+                    name: "Chitra Iyer",
+                    category: "ANC",
+                    age: 26,
+                    worker: { name: "Krushna Rasal", village: "Central Block", mobileNumber: "9876543210" },
+                    visitHistory: [{ bloodPressure: "142/90", weight: 61 }]
+                },
+                {
+                    id: 'res-25',
+                    name: "Gayatri Pandey",
+                    category: "PNC",
+                    age: 29,
+                    worker: { name: "Fatima Nasser", village: "East Sector", mobileNumber: "9011223344" },
+                    visitHistory: [{ bloodPressure: "135/85", weight: 56 }]
+                },
+                {
+                    id: 'res-27',
+                    name: "Isha Malhotra",
+                    category: "ANC",
+                    age: 23,
+                    worker: { name: "Sunita Kumari", village: "Malur Block", mobileNumber: "9823456781" },
+                    visitHistory: [{ bloodPressure: "148/96", weight: 63 }]
                 }
-            } catch (err) {
-                console.error(err)
-                setError('Network error connecting to backend')
-            } finally {
+            ];
+
+            setTimeout(() => {
+                setCases(highRiskData)
                 setLoading(false)
-            }
+            }, 500)
         }
 
         fetchHighRisk()
@@ -111,7 +162,10 @@ export default function HighRiskTrackerPage() {
                                         >
                                             View Full History
                                         </button>
-                                        <button className={styles.btnNotify}>
+                                        <button
+                                            className={styles.btnNotify}
+                                            onClick={() => navigate(`/messages?resId=${item.id}&resName=${encodeURIComponent(item.name)}&worker=${encodeURIComponent(item.worker?.name)}`)}
+                                        >
                                             Notify Worker
                                         </button>
                                     </div>

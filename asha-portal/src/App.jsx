@@ -5,10 +5,7 @@ import WorkersListPage from './pages/WorkersListPage'
 import WorkerProfilePage from './pages/DashboardPage'
 import BeneficiariesListPage from './pages/BeneficiariesListPage'
 import HighRiskTrackerPage from './pages/HighRiskTrackerPage'
-import TasksPage from './pages/TasksPage'
-import InventoryPage from './pages/InventoryPage'
-import AnalyticsPage from './pages/AnalyticsPage'
-import RegisterWorker from './pages/RegisterWorker'
+import PushNotificationsPage from './pages/PushNotificationsPage'
 
 export default function App() {
   return (
@@ -20,10 +17,7 @@ export default function App() {
         <Route path="/workers/:id" element={<WorkerProfilePage />} />
         <Route path="/beneficiaries" element={<BeneficiariesListPage />} />
         <Route path="/high-risk" element={<HighRiskTrackerPage />} />
-        <Route path="/tasks" element={<TasksPage />} />
-        <Route path="/inventory" element={<InventoryPage />} />
-        <Route path="/reports" element={<AnalyticsPage />} />
-        <Route path="/register-worker" element={<RegisterWorker />} />
+        <Route path="/messages" element={<PushNotificationsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

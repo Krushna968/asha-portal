@@ -5,9 +5,7 @@ import styles from './Sidebar.module.css'
 const NAV = [
     { id: 'dashboard', label: 'Dashboard', Icon: GridIcon },
     { id: 'workers', label: 'ASHA Workers', Icon: PeopleIcon },
-    { id: 'reports', label: 'Reports', Icon: ReportIcon },
-    { id: 'messages', label: 'Messages', Icon: MessageIcon, badge: 4 },
-    { id: 'tasks', label: 'Task Management', Icon: TaskIcon },
+    { id: 'messages', label: 'Push Notification', Icon: MessageIcon, badge: 4 },
 ]
 
 export default function Sidebar({ active = 'dashboard' }) {

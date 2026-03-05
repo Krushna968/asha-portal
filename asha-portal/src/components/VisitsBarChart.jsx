@@ -2,11 +2,11 @@ import { useEffect, useRef } from 'react'
 import styles from './VisitsBarChart.module.css'
 
 const BLOCKS = [
-    { label: 'BLOCK A', value: 60 },
-    { label: 'BLOCK B', value: 85 },
-    { label: 'BLOCK C', value: 45 },
-    { label: 'BLOCK D', value: 70 },
-    { label: 'BLOCK E', value: 55 },
+    { label: 'Sector 4', value: 85 },
+    { label: 'Sector 7', value: 72 },
+    { label: 'Sector 2', value: 65 },
+    { label: 'Sector 9', value: 58 },
+    { label: 'Sector 1', value: 45 },
 ]
 const MAX = 100
 
@@ -35,7 +35,7 @@ export default function VisitsBarChart() {
         <div className={styles.card}>
             <div className={styles.headerRow}>
                 <div className={styles.header}>
-                    <h2 className={styles.title}>Visits per Area</h2>
+                    <h2 className={styles.title}>Airavali Top 5 Sector Area</h2>
                 </div>
                 <select className={styles.select}>
                     <option>This Week</option>

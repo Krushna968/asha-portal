@@ -8,7 +8,8 @@ const {
     getHighRiskBeneficiaries,
     getAllTasks,
     createGlobalTask,
-    getGlobalInventory
+    getGlobalInventory,
+    getDistrictAnalytics
 } = require('../controllers/adminController');
 const { requireAuth } = require('../middlewares/authMiddleware');
 

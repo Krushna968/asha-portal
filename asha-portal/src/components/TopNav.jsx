@@ -4,13 +4,9 @@ import styles from './TopNav.module.css'
 const NAV = [
     { id: 'dashboard', label: 'Dashboard', path: '/dashboard' },
     { id: 'workers', label: 'ASHA Workers', path: '/workers' },
-    { id: 'beneficiaries', label: 'Beneficiaries', path: '/beneficiaries' },
+    { id: 'beneficiaries', label: 'Residents', path: '/beneficiaries' },
     { id: 'high-risk', label: 'High-Risk Tracker', path: '/high-risk' },
-    { id: 'tasks', label: 'Global Task Board', path: '/tasks' },
-    { id: 'inventory', label: 'Inventory Monitoring', path: '/inventory' },
-    { id: 'reports', label: 'Health Analytics', path: '/reports' },
-    { id: 'register', label: 'Register Worker', path: '/register-worker' },
-    { id: 'messages', label: 'Messages', path: null, badge: 4 },
+    { id: 'messages', label: 'Push Notification', path: '/messages', badge: 4 },
 ]
 
 export default function TopNav({ active = 'dashboard' }) {
