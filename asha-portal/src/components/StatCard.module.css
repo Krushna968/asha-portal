@@ -1,0 +1,78 @@
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp .4s ease both;
+}
+
+.topRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.iconWrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.iconWrap svg {
+    width: 22px;
+    height: 22px;
+}
+
+.icon_up {
+    background: #EEF1FB;
+    color: var(--blue);
+}
+
+.icon_down {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.icon_alert {
+    background: #FEF9EE;
+    color: #F59E0B;
+}
+
+.icon_task {
+    background: #FFF7ED;
+    color: #F97316;
+}
+
+.change {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.changeUp {
+    color: #16A34A;
+}
+
+.changeDown {
+    color: #DC2626;
+}
+
+.label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-dark);
+    line-height: 1.1;
+}

@@ -1,0 +1,116 @@
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp .4s ease both;
+    margin-top: 20px;
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.viewAll {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.viewAll:hover {
+    text-decoration: underline;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+}
+
+.icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.iconBlue {
+    background: var(--blue-light);
+    color: var(--blue);
+}
+
+.iconGrey {
+    background: #F3F4F6;
+    color: var(--text-mid);
+}
+
+.content {
+    flex: 1;
+}
+
+.metaRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3px;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.time {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    color: var(--blue);
+    text-transform: uppercase;
+}
+
+.hid {
+    font-size: 10.5px;
+    color: var(--text-light);
+}
+
+.visitTitle {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.desc {
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.55;
+}

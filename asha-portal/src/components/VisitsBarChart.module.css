@@ -1,0 +1,60 @@
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp .4s ease both;
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.select {
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-family: var(--font);
+    color: var(--text-mid);
+    background: white;
+    cursor: pointer;
+    outline: none;
+}
+
+.svg {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.bar {
+    transition: opacity .2s;
+}
+
+.bar:hover {
+    opacity: .8;
+}
+
+.label {
+    font-family: var(--font);
+    font-size: 9px;
+    fill: var(--text-light);
+    letter-spacing: .04em;
+}

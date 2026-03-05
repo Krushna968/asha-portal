@@ -1,0 +1,146 @@
+.card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp .4s ease both;
+}
+
+.headerRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.viewAll {
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    cursor: pointer;
+    font-family: var(--font);
+}
+
+.viewAll:hover {
+    text-decoration: underline;
+}
+
+.tableWrap {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table thead th {
+    text-align: left;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    padding: 0 12px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.row {
+    transition: background .15s;
+    cursor: pointer;
+}
+
+.row:hover {
+    background: var(--bg);
+}
+
+.table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.workerCell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.workerName {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.workerId {
+    font-size: 11px;
+    color: var(--text-light);
+}
+
+.region {
+    font-size: 13px;
+    color: var(--text-mid);
+}
+
+.activity {
+    font-size: 13px;
+    color: var(--text-mid);
+}
+
+.sync {
+    font-size: 12px;
+    color: var(--text-light);
+    white-space: nowrap;
+}
+
+.status {
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: .05em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.completed {
+    background: #DCFCE7;
+    color: #16A34A;
+}
+
+.highRisk {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.pending {
+    background: #FEF9C3;
+    color: #D97706;
+}
