@@ -1,0 +1,214 @@
+.page {
+    min-height: 100vh;
+    background-color: #fff5f5;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.alertIcon {
+    width: 64px;
+    height: 64px;
+    background: #fee2e2;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+}
+
+.alertIcon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #991b1b;
+    margin: 0;
+}
+
+.subtitle {
+    color: #b91c1c;
+    opacity: 0.8;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(153, 27, 27, 0.05);
+    border: 1px solid #fee2e2;
+    position: relative;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(153, 27, 27, 0.1);
+}
+
+.riskBadge {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 800;
+}
+
+.riskCritical {
+    background: #fee2e2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+}
+
+.riskHigh {
+    background: #ffedd5;
+    color: #ea580c;
+    border: 1px solid #fed7aa;
+}
+
+.riskPending {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.patientName {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 0.25rem 0;
+}
+
+.patientInfo {
+    color: #64748b;
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+}
+
+.statsRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: #fffafa;
+    padding: 1rem;
+    border-radius: 12px;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+}
+
+.statLabel {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.025em;
+    font-weight: 600;
+}
+
+.statValue {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #ef4444;
+}
+
+.workerInfo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0;
+    border-top: 1px solid #f1f5f9;
+}
+
+.workerAvatar {
+    width: 36px;
+    height: 36px;
+    background: #f8fafc;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 0.6rem;
+    font-weight: 800;
+}
+
+.workerName {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.workerContact {
+    font-size: 0.75rem;
+    color: #94a3b8;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.btnAction,
+.btnNotify {
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btnAction {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.btnNotify {
+    background: #ef4444;
+    color: white;
+    border: none;
+}
+
+.btnAction:hover {
+    background: #f1f5f9;
+}
+
+.btnNotify:hover {
+    background: #dc2626;
+    box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.4);
+}
+
+.loader,
+.error,
+.empty {
+    padding: 4rem;
+    text-align: center;
+    color: #991b1b;
+}

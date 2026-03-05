@@ -4,6 +4,8 @@ import styles from './TopNav.module.css'
 const NAV = [
     { id: 'dashboard', label: 'Dashboard', path: '/dashboard' },
     { id: 'workers', label: 'ASHA Workers', path: '/workers' },
+    { id: 'beneficiaries', label: 'Beneficiaries', path: '/beneficiaries' },
+    { id: 'high-risk', label: 'High-Risk Tracker', path: '/high-risk' },
     { id: 'register', label: 'Register Worker', path: '/register-worker' },
     { id: 'reports', label: 'Reports', path: null },
     { id: 'messages', label: 'Messages', path: null, badge: 4 },
