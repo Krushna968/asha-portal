@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: asha-admin-backend
+    env: node
+    plan: free
+    rootDir: web - backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 3001
