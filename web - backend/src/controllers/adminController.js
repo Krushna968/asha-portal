@@ -168,11 +168,86 @@ const getHighRiskBeneficiaries = async (req, res) => {
     }
 };
 
+const getAllTasks = async (req, res) => {
+    try {
+        const tasks = await prisma.task.findMany({
+            include: {
+                worker: { select: { name: true, village: true } }
+            },
+            orderBy: { dueDate: 'asc' }
+        });
+        res.json(tasks);
+    } catch (error) {
+        console.error('Error fetching global tasks:', error);
+        res.status(500).json({ error: 'Failed to fetch global tasks' });
+    }
+};
+
+const createGlobalTask = async (req, res) => {
+    try {
+        const { title, description, priority, dueDate, workerId } = req.body;
+
+        if (!title || !dueDate || !workerId) {
+            return res.status(400).json({ error: 'Title, Due Date, and Worker ID are required.' });
+        }
+
+        const newTask = await prisma.task.create({
+            data: {
+                title,
+                description,
+                priority: priority || 'MEDIUM',
+                dueDate: new Date(dueDate),
+                workerId
+            },
+            include: {
+                worker: { select: { name: true } }
+            }
+        });
+
+        res.status(201).json(newTask);
+    } catch (error) {
+        console.error('Error creating global task:', error);
+        res.status(500).json({ error: 'Failed to create task' });
+    }
+};
+
+const getGlobalInventory = async (req, res) => {
+    try {
+        const inventory = await prisma.inventoryItem.findMany({
+            include: {
+                worker: { select: { name: true, village: true } }
+            }
+        });
+
+        // Group by item name for a summary view
+        const summary = inventory.reduce((acc, item) => {
+            if (!acc[item.name]) {
+                acc[item.name] = { name: item.name, total: 0, unit: item.unit, locations: [] };
+            }
+            acc[item.name].total += item.quantity;
+            acc[item.name].locations.push({
+                village: item.worker.village,
+                worker: item.worker.name,
+                quantity: item.quantity
+            });
+            return acc;
+        }, {});
+
+        res.json(Object.values(summary));
+    } catch (error) {
+        console.error('Error fetching global inventory:', error);
+        res.status(500).json({ error: 'Failed to fetch global inventory' });
+    }
+};
+
 module.exports = {
     registerWorker,
     getAllWorkers,
     getWorkerById,
     getAllBeneficiaries,
     getBeneficiaryById,
-    getHighRiskBeneficiaries
+    getHighRiskBeneficiaries,
+    getAllTasks,
+    createGlobalTask,
+    getGlobalInventory
 };

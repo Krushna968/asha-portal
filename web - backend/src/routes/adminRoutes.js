@@ -5,7 +5,10 @@ const {
     getWorkerById,
     getAllBeneficiaries,
     getBeneficiaryById,
-    getHighRiskBeneficiaries
+    getHighRiskBeneficiaries,
+    getAllTasks,
+    createGlobalTask,
+    getGlobalInventory
 } = require('../controllers/adminController');
 const { requireAuth } = require('../middlewares/authMiddleware');
 
@@ -23,5 +26,12 @@ router.get('/beneficiaries', getAllBeneficiaries);
 router.get('/beneficiaries/:id', getBeneficiaryById);
 
 router.get('/high-risk', getHighRiskBeneficiaries);
+
+// Task Management
+router.get('/tasks', getAllTasks);
+router.post('/tasks', createGlobalTask);
+
+// Inventory
+router.get('/inventory', getGlobalInventory);
 
 module.exports = router;

@@ -1,0 +1,133 @@
+.page {
+    min-height: 100vh;
+    background-color: #f0f4f8;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.header {
+    margin-bottom: 2.5rem;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0;
+}
+
+.subtitle {
+    color: #475569;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+}
+
+.itemCard {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.itemHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.itemName {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.totalBadge {
+    background: #e0f2fe;
+    color: #0369a1;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.locations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.locHeader {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 0.5rem;
+}
+
+.locRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+.locInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.villageName {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.workerName {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.quantity {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.lowStock {
+    color: #ef4444;
+}
+
+.warning {
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background: #fffbeb;
+    border: 1px solid #fef3c7;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    color: #92400e;
+    font-weight: 600;
+}
+
+.loader {
+    padding: 4rem;
+    text-align: center;
+    color: #64748b;
+}

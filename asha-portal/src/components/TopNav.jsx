@@ -6,10 +6,11 @@ const NAV = [
     { id: 'workers', label: 'ASHA Workers', path: '/workers' },
     { id: 'beneficiaries', label: 'Beneficiaries', path: '/beneficiaries' },
     { id: 'high-risk', label: 'High-Risk Tracker', path: '/high-risk' },
+    { id: 'tasks', label: 'Global Task Board', path: '/tasks' },
+    { id: 'inventory', label: 'Inventory Monitoring', path: '/inventory' },
     { id: 'register', label: 'Register Worker', path: '/register-worker' },
     { id: 'reports', label: 'Reports', path: null },
     { id: 'messages', label: 'Messages', path: null, badge: 4 },
-    { id: 'tasks', label: 'Task Management', path: null },
 ]
 
 export default function TopNav({ active = 'dashboard' }) {
