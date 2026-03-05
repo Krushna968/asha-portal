@@ -1,0 +1,57 @@
+# ASHA Admin Portal - Project Documentation
+
+## Project Overview
+A fullstack administration system designed for District Health Officers to manage ASHA workers, monitor maternal/child health (ANC/PNC), and coordinate healthcare delivery in rural areas.
+
+## Repository Structure
+- `/asha-portal`: React Frontend (Vite, CSS Modules, React Router).
+- `/web - backend`: Node.js Backend (Express, Prisma ORM, PostgreSQL).
+
+## Implementation Modules
+
+### Module 1: Core Management (Status: COMPLETED ✅)
+- **Authentication**: Dual-mode login (Username/Password + Google OAuth via Firebase).
+- **Worker Directory**: Searchable list of all ASHA workers in the district.
+- **Worker Profiles**: Dynamic profiles fetching live performance and task data.
+- **Worker Registration**: Secure onboarding for new personnel.
+
+### Module 2: Health Monitoring (Status: COMPLETED ✅)
+- **Beneficiary Directory**: Centralized records of all patients (Pregnant Women, Infants, etc.).
+- **High-Risk Tracker**: Real-time dashboard flagging critical cases based on health markers (e.g., Blood Pressure).
+- **Patient History**: Detailed logs of every home visit conducted by workers.
+
+### Module 3: Operational Control (Status: PLANNED 🏗️)
+- **Global Task Board**: Manage and assign health campaigns district-wide.
+- **Inventory Monitoring**: Track medicine and kit supplies at the village level.
+
+### Module 4: Analytics (Status: PLANNED 🏗️)
+- **District Health Reports**: Automated charts for ANC coverage and mortality trends.
+
+---
+
+## Technical Specifications
+
+### Prerequisites
+- Node.js (v16+)
+- PostgreSQL Database (e.g., Supabase)
+
+### Backend Setup
+1. Navigate to `/web - backend`.
+2. Install dependencies: `npm install`
+3. Configure `.env`:
+   - `DATABASE_URL`: PostgreSQL connection string.
+   - `JWT_SECRET`: Secure string for token signing.
+4. Sync Database: `npx prisma db push`
+5. Seed Admin: `node seedAdmin.js`
+6. Run: `npm run dev` (Port 3001)
+
+### Frontend Setup
+1. Navigate to `/asha-portal`.
+2. Install dependencies: `npm install`
+3. Run: `npm run dev` (Port 5173)
+
+---
+
+## Key Credentials (Seeded)
+- **Admin Email**: krushnaemail123@gmail.com
+- **Admin Password**: admin123
