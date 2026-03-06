@@ -1,21 +1,36 @@
 import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import styles from './RecentTasksTable.module.css'
 
-const TASKS = [
-    { initials: 'SK', name: 'Sunita Kumari', id: '#ASH-2091', region: 'Malur Block', activity: 'Prenatal Checkup', status: 'completed', sync: '2 mins ago' },
-    { initials: 'PD', name: 'Priya Devi', id: '#ASH-4402', region: 'Hosur North', activity: 'Emergency Alert', status: 'high-risk', sync: '15 mins ago' },
-    { initials: 'RM', name: 'Rekha Murthy', id: '#ASH-3310', region: 'Block C South', activity: 'Immunization Drive', status: 'pending', sync: '1 hr ago' },
-    { initials: 'FN', name: 'Fatima Nasser', id: '#ASH-1209', region: 'East Sector', activity: 'Monthly Data Entry', status: 'completed', sync: '3 hrs ago' },
-]
-
-const STATUS = {
-    completed: { cls: 'completed', label: 'COMPLETED' },
-    'high-risk': { cls: 'highRisk', label: 'HIGH-RISK' },
-    pending: { cls: 'pending', label: 'PENDING' },
+const STATUS_COLORS = {
+    Active: { cls: 'completed', label: 'ACTIVE' },
+    Inactive: { cls: 'pending', label: 'INACTIVE' },
 }
 
 export default function RecentTasksTable() {
     const navigate = useNavigate()
+    const [workers, setWorkers] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchRecent = async () => {
+            try {
+                const token = localStorage.getItem('asha_token')
+                const res = await fetch('http://10.75.109.134:3001/api/admin/workers', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                if (res.ok) {
+                    const data = await res.json()
+                    setWorkers(data.slice(0, 4)) // Only show top 4
+                }
+            } catch (err) {
+                console.error(err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchRecent()
+    }, [])
     return (
         <div className={styles.card}>
             <div className={styles.headerRow}>
@@ -30,25 +45,25 @@ export default function RecentTasksTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {TASKS.map(t => (
-                            <tr key={t.id} className={styles.row} onClick={() => navigate('/workers')}>
+                        {workers.map(w => (
+                            <tr key={w.id} className={styles.row} onClick={() => navigate(`/workers/${w.id}`)}>
                                 <td>
                                     <div className={styles.workerCell}>
-                                        <div className={styles.avatar}>{t.initials}</div>
+                                        <div className={styles.avatar}>{w.name[0]}</div>
                                         <div>
-                                            <div className={styles.workerName}>{t.name}</div>
-                                            <div className={styles.workerId}>ID: {t.id}</div>
+                                            <div className={styles.workerName}>{w.name}</div>
+                                            <div className={styles.workerId}>ID: {w.employeeId}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td className={styles.region}>{t.region}</td>
-                                <td className={styles.activity}>{t.activity}</td>
+                                <td className={styles.region}>{w.village || 'N/A'}</td>
+                                <td className={styles.activity}>{w._count?.tasks || 0} Open Tasks</td>
                                 <td>
-                                    <span className={`${styles.status} ${styles[STATUS[t.status].cls]}`}>
-                                        {STATUS[t.status].label}
+                                    <span className={`${styles.status} ${styles[STATUS_COLORS.Active.cls]}`}>
+                                        {STATUS_COLORS.Active.label}
                                     </span>
                                 </td>
-                                <td className={styles.sync}>{t.sync}</td>
+                                <td className={styles.sync}>{new Date(w.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</td>
                             </tr>
                         ))}
                     </tbody>

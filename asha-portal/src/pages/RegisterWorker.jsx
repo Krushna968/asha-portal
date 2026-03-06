@@ -44,7 +44,7 @@ export default function RegisterWorker() {
         try {
             const token = localStorage.getItem('asha_token')
 
-            const res = await fetch('http://localhost:3001/api/admin/workers', {
+            const res = await fetch('http://10.75.109.134:3001/api/admin/workers', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

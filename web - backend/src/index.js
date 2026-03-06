@@ -25,8 +25,39 @@ app.use('/api/worker', workerRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/tasks', taskRoutes);
 
-const { PrismaClient } = require('@prisma/client');
-const prisma = new PrismaClient();
+// SakhiAI Proxy — forwards chat requests to the mobile backend
+app.post('/api/sakhi/chat', async (req, res) => {
+    console.log(`[DEBUG] SakhiAI Proxy: ${req.method} ${req.url}`);
+    try {
+        const MOBILE_BACKEND = process.env.MOBILE_BACKEND_URL || 'http://localhost:5000';
+        console.log(`[DEBUG] Forwarding to: ${MOBILE_BACKEND}/api/sakhi/chat`);
+
+        const response = await fetch(`${MOBILE_BACKEND}/api/sakhi/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...(req.headers.authorization ? { 'Authorization': req.headers.authorization } : {})
+            },
+            body: JSON.stringify(req.body)
+        });
+
+        console.log(`[DEBUG] Mobile backend response status: ${response.status}`);
+
+        if (!response.ok) {
+            const errData = await response.json().catch(() => ({}));
+            console.error(`[DEBUG] Mobile backend error:`, errData);
+            return res.status(response.status).json(errData || { error: 'Mobile backend failed' });
+        }
+
+        const data = await response.json();
+        res.json(data);
+    } catch (error) {
+        console.error('[DEBUG] SakhiAI proxy error:', error.message);
+        res.status(502).json({ reply: 'SakhiAI is currently unavailable. Please ensure the mobile backend is running on port 5000.' });
+    }
+});
+
+const prisma = require('./lib/prisma');
 const bcrypt = require('bcryptjs');
 
 async function seedAdminOnStartup() {

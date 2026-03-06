@@ -12,7 +12,7 @@ export default function InventoryPage() {
         const fetchInventory = async () => {
             try {
                 const token = localStorage.getItem('asha_token')
-                const res = await fetch('http://localhost:3001/api/admin/inventory', {
+                const res = await fetch('http://10.75.109.134:3001/api/admin/inventory', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
                 if (res.ok) {

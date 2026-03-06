@@ -9,7 +9,10 @@ const {
     getAllTasks,
     createGlobalTask,
     getGlobalInventory,
-    getDistrictAnalytics
+    getDistrictAnalytics,
+    getWorkerReports,
+    getReportById,
+    getAdminMessages
 } = require('../controllers/adminController');
 const { requireAuth } = require('../middlewares/authMiddleware');
 
@@ -21,6 +24,7 @@ router.use(requireAuth);
 // Admin specific endpoints
 router.get('/workers', getAllWorkers);
 router.get('/workers/:id', getWorkerById);
+router.get('/workers/:id/reports', getWorkerReports);
 router.post('/workers', registerWorker);
 
 router.get('/beneficiaries', getAllBeneficiaries);
@@ -37,5 +41,11 @@ router.get('/inventory', getGlobalInventory);
 
 // Analytics
 router.get('/analytics', getDistrictAnalytics);
+
+// Reports
+router.get('/reports/:id', getReportById);
+
+// Messages / Forwarded Reports
+router.get('/messages', getAdminMessages);
 
 module.exports = router;

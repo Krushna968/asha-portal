@@ -31,3 +31,4 @@ backend/.env
 backend/src/generated/prisma
 
 backend/serviceAccountKey.json
+.env*.local

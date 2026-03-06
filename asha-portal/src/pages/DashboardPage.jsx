@@ -5,8 +5,8 @@ import WorkerHero from '../components/WorkerHero'
 import PersonalDetails from '../components/PersonalDetails'
 import AreaMap from '../components/AreaMap'
 import PerformanceChart from '../components/PerformanceChart'
-import TaskList from '../components/TaskList'
 import VisitHistory from '../components/VisitHistory'
+import DailyReports from '../components/DailyReports'
 import styles from './DashboardPage.module.css'
 
 export default function DashboardPage() {
@@ -25,7 +25,7 @@ export default function DashboardPage() {
                     return
                 }
 
-                const res = await fetch(`http://localhost:3001/api/admin/workers/${id}`, {
+                const res = await fetch(`http://10.75.109.134:3001/api/admin/workers/${id}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
 
@@ -80,6 +80,10 @@ export default function DashboardPage() {
                             worker={worker}
                         />
                         <VisitHistory />
+                        <DailyReports
+                            workerId={worker.id}
+                            workerName={worker.name}
+                        />
                     </div>
                 </div>
             </div>

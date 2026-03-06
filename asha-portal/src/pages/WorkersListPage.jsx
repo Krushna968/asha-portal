@@ -5,72 +5,38 @@ import styles from './WorkersListPage.module.css'
 
 export default function WorkersListPage() {
     const navigate = useNavigate()
-    const [workers, setWorkers] = useState([
-        {
-            id: 'krushna-rasal',
-            name: 'Krushna Rasal',
-            employeeId: 'ASH-1001',
-            village: 'Central Block',
-            mobileNumber: '9876543210',
-            _count: { residents: 45 },
-            status: 'Active'
-        },
-        {
-            id: 'sunita-kumari',
-            name: 'Sunita Kumari',
-            employeeId: 'ASH-2091',
-            village: 'Malur Block',
-            mobileNumber: '9823456781',
-            _count: { residents: 32 },
-            status: 'Active'
-        },
-        {
-            id: 'priya-devi',
-            name: 'Priya Devi',
-            employeeId: 'ASH-4402',
-            village: 'Hosur North',
-            mobileNumber: '8812345678',
-            _count: { residents: 12 },
-            status: 'Active'
-        },
-        {
-            id: 'rekha-murthy',
-            name: 'Rekha Murthy',
-            employeeId: 'ASH-3310',
-            village: 'Block C South',
-            mobileNumber: '7733445566',
-            _count: { residents: 28 },
-            status: 'Active'
-        },
-        {
-            id: 'fatima-nasser',
-            name: 'Fatima Nasser',
-            employeeId: 'ASH-1209',
-            village: 'East Sector',
-            mobileNumber: '9011223344',
-            _count: { residents: 20 },
-            status: 'Active'
-        }
-    ])
-    const [pendingWorkers, setPendingWorkers] = useState([
-        {
-            id: 'p-1',
-            name: 'Anjali Sharma',
-            village: 'West Sector',
-            mobileNumber: '9122334455',
-            requestedAt: '1 day ago'
-        },
-        {
-            id: 'p-2',
-            name: 'Kavita Patel',
-            village: 'Malur South',
-            mobileNumber: '9233445566',
-            requestedAt: '3 hours ago'
-        }
-    ])
-    const [loading, setLoading] = useState(false)
+    const [workers, setWorkers] = useState([])
+    const [pendingWorkers, setPendingWorkers] = useState([])
+    const [loading, setLoading] = useState(true)
     const [showPending, setShowPending] = useState(false)
     const [search, setSearch] = useState('')
+
+    useEffect(() => {
+        fetchWorkers()
+    }, [])
+
+    const fetchWorkers = async () => {
+        try {
+            setLoading(true)
+            const token = localStorage.getItem('asha_token')
+            const res = await fetch('http://10.75.109.134:3001/api/admin/workers', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            if (res.ok) {
+                const data = await res.json()
+                // Split between registered (has employeeId) and pending (if any, though backend doesn't differentiate yet)
+                // For this demo, we'll assume all fetched workers are registered
+                setWorkers(data)
+
+                // Mock pending for UI demonstration if needed, or leave empty
+                setPendingWorkers([])
+            }
+        } catch (err) {
+            console.error('Fetch workers error:', err)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     const filteredWorkers = workers.filter(w =>
         w.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -197,7 +163,7 @@ export default function WorkersListPage() {
                                         <td><code className={styles.idCode}>{w.employeeId}</code></td>
                                         <td>{w.village}</td>
                                         <td>{w.mobileNumber}</td>
-                                        <td>{w._count?.residents || 0}</td>
+                                        <td>{w._count?.patients || 0}</td>
                                         <td>
                                             <span className={styles.statusActive}>Active</span>
                                         </td>

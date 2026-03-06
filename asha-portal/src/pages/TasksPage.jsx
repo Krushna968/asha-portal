@@ -25,10 +25,10 @@ export default function TasksPage() {
         try {
             const token = localStorage.getItem('asha_token')
             const [tasksRes, workersRes] = await Promise.all([
-                fetch('http://localhost:3001/api/admin/tasks', {
+                fetch('http://10.75.109.134:3001/api/admin/tasks', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 }),
-                fetch('http://localhost:3001/api/admin/workers', {
+                fetch('http://10.75.109.134:3001/api/admin/workers', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 })
             ])
@@ -48,7 +48,7 @@ export default function TasksPage() {
         e.preventDefault()
         try {
             const token = localStorage.getItem('asha_token')
-            const res = await fetch('http://localhost:3001/api/admin/tasks', {
+            const res = await fetch('http://10.75.109.134:3001/api/admin/tasks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

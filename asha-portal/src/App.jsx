@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import MainDashboard from './pages/MainDashboard'
 import WorkersListPage from './pages/WorkersListPage'
@@ -6,6 +6,14 @@ import WorkerProfilePage from './pages/DashboardPage'
 import BeneficiariesListPage from './pages/BeneficiariesListPage'
 import HighRiskTrackerPage from './pages/HighRiskTrackerPage'
 import PushNotificationsPage from './pages/PushNotificationsPage'
+import SakhiChat from './components/SakhiChat'
+
+function SakhiChatWrapper() {
+  const location = useLocation()
+  // Only show SakhiChat on non-login pages
+  if (location.pathname === '/') return null
+  return <SakhiChat />
+}
 
 export default function App() {
   return (
@@ -20,6 +28,7 @@ export default function App() {
         <Route path="/messages" element={<PushNotificationsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <SakhiChatWrapper />
     </BrowserRouter>
   )
 }

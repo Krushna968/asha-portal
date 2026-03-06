@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TopNav from '../components/TopNav'
 import StatCard from '../components/StatCard'
@@ -13,11 +13,11 @@ const VisitsIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentCol
 const RiskIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
 const TasksIcon = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" /></svg>
 
-const STATS = [
-    { icon: <WorkersIcon />, label: 'Total ASHA Workers', value: '1,240' },
-    { icon: <VisitsIcon />, label: 'Total Visits Today', value: '432' },
-    { icon: <RiskIcon />, label: 'High-Risk Cases', value: '28' },
-    { icon: <TasksIcon />, label: 'Pending Tasks', value: '15' },
+const defaultStats = [
+    { icon: <WorkersIcon />, label: 'Total ASHA Workers', value: '0' },
+    { icon: <VisitsIcon />, label: 'Total Visits Today', value: '0' },
+    { icon: <RiskIcon />, label: 'High-Risk Cases', value: '0' },
+    { icon: <TasksIcon />, label: 'Pending Tasks', value: '0' },
 ]
 
 const getFormattedDate = () => {
@@ -28,6 +28,33 @@ const getFormattedDate = () => {
 
 export default function MainDashboard() {
     const navigate = useNavigate()
+    const [stats, setStats] = useState(defaultStats)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchAnalytics = async () => {
+            try {
+                const token = localStorage.getItem('asha_token')
+                const res = await fetch('http://10.75.109.134:3001/api/admin/analytics', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                })
+                if (res.ok) {
+                    const data = await res.json()
+                    setStats([
+                        { icon: <WorkersIcon />, label: 'Total ASHA Workers', value: data.totals.workers.toLocaleString() },
+                        { icon: <VisitsIcon />, label: 'Total Visits Today', value: data.totals.visits.toLocaleString() },
+                        { icon: <RiskIcon />, label: 'High-Risk Cases', value: (data.categories.ANC || 0).toString() },
+                        { icon: <TasksIcon />, label: 'Pending Tasks', value: (data.taskStats.PENDING || 0).toString() },
+                    ])
+                }
+            } catch (err) {
+                console.error('Analytics fetch error:', err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchAnalytics()
+    }, [])
 
     const downloadReport = () => {
         const doc = new jsPDF();
@@ -106,7 +133,7 @@ export default function MainDashboard() {
 
                 {/* Stat cards */}
                 <div className={styles.statsGrid}>
-                    {STATS.map((s, i) => <StatCard key={i} {...s} />)}
+                    {stats.map((s, i) => <StatCard key={i} {...s} />)}
                 </div>
 
                 {/* Charts */}

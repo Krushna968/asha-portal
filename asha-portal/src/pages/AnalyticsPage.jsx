@@ -7,7 +7,7 @@ export default function AnalyticsPage() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch('http://localhost:3001/api/admin/analytics', {
+        fetch('http://10.75.109.134:3001/api/admin/analytics', {
             headers: { 'Authorization': `Bearer ${localStorage.getItem('asha_token')}` }
         })
             .then(res => res.json())

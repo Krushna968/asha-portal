@@ -1,8 +1,6 @@
 const admin = require('firebase-admin');
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../lib/prisma');
 const jwt = require('jsonwebtoken');
-
-const prisma = new PrismaClient();
 
 // Initialize Firebase Admin (Only initialize once)
 if (!admin.apps.length) {

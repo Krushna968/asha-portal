@@ -21,21 +21,27 @@ model Admin {
 }
 
 model Worker {
-  id             String          @id @default(uuid())
-  employeeId     String          @unique
-  name           String
-  mobileNumber   String          @unique
-  email          String?         @unique
-  village        String
-  gender         String?
-  profileImage   String?
-  totalVisits    Int             @default(0)
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  patients       Patient[]
-  tasks          Task[]
-  visitHistory   VisitHistory[]
-  inventory      InventoryItem[]
+  id               String             @id @default(uuid())
+  employeeId       String             @unique
+  name             String
+  mobileNumber     String             @unique
+  email            String?            @unique
+  village          String
+  gender           String?
+  profileImage     String?
+  totalVisits      Int                @default(0)
+  otp              String?
+  otpExpiry        DateTime?
+  fcmToken         String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  patients         Patient[]
+  tasks            Task[]
+  visitHistory     VisitHistory[]
+  inventory        InventoryItem[]
+  households       Household[]
+  learningProgress LearningProgress[]
+  reports          Report[]
 }
 
 model Patient {
@@ -43,14 +49,59 @@ model Patient {
   name         String
   age          Int
   gender       String?
-  category     String         // e.g., 'ANC', 'PNC', 'INFANT', 'GENERAL'
-  address      String
-  pregnancyEDD DateTime?      // Expected Date of Delivery for ANC
+  category     String // e.g., 'ANC', 'PNC', 'INFANT', 'GENERAL'
+  address      String? // Legacy field, now optional
+  relation     String? // e.g., 'Head (Mother)', 'Husband', 'Wife', 'Child'
+  pregnancyEDD DateTime? // Expected Date of Delivery for ANC
   workerId     String
+  householdId  String?
   worker       Worker         @relation(fields: [workerId], references: [id])
+  household    Household?     @relation(fields: [householdId], references: [id])
   visitHistory VisitHistory[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
+}
+
+model Household {
+  id                String    @id @default(uuid())
+  houseNumber       String // e.g., 'H001', 'H002'
+  headName          String // Name of the head of the family
+  address           String
+  village           String?
+  status            String    @default("pending") // 'pending', 'completed', 'high-risk', 'closed'
+  pendingTasksCount Int       @default(0)
+  isClosed          Boolean   @default(false)
+  familyMembers     Patient[] // Relation to individual patients in the family
+  workerId          String
+  worker            Worker    @relation(fields: [workerId], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([workerId, houseNumber])
+}
+
+model LearningModule {
+  id          String             @id @default(uuid())
+  title       String
+  description String?
+  contentUrl  String? // Link to video or article
+  durationMin Int? // Estimated duration in minutes
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  progress    LearningProgress[]
+}
+
+model LearningProgress {
+  id          String         @id @default(uuid())
+  workerId    String
+  moduleId    String
+  status      String         @default("NOT_STARTED") // 'NOT_STARTED', 'IN_PROGRESS', 'COMPLETED'
+  completedAt DateTime?
+  worker      Worker         @relation(fields: [workerId], references: [id])
+  module      LearningModule @relation(fields: [moduleId], references: [id])
+  updatedAt   DateTime       @updatedAt
+
+  @@unique([workerId, moduleId]) // A worker can only have one progress record per module
 }
 
 model Task {
@@ -58,9 +109,10 @@ model Task {
   title       String
   description String?
   status      String   @default("PENDING") // 'PENDING', 'IN_PROGRESS', 'COMPLETED'
-  priority    String   @default("MEDIUM")  // 'HIGH', 'MEDIUM', 'LOW'
+  priority    String   @default("MEDIUM") // 'HIGH', 'MEDIUM', 'LOW'
   dueDate     DateTime
   workerId    String
+  householdId String? // Link task to household
   worker      Worker   @relation(fields: [workerId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -72,21 +124,47 @@ model VisitHistory {
   patientId     String
   visitDate     DateTime @default(now())
   outcome       String
+  visitType     String? // e.g., 'Routine Checkup', 'ANC Follow-up'
+  symptoms      String? // Comma-separated symptom list
   bloodPressure String?
   weight        Float?
   bloodSugar    Float?
   temperature   Float?
   notes         String?
+  isHouseClosed Boolean  @default(false)
   worker        Worker   @relation(fields: [workerId], references: [id])
   patient       Patient  @relation(fields: [patientId], references: [id])
 }
 
 model InventoryItem {
   id          String   @id @default(uuid())
-  name        String   // e.g. Paracetamol, ORS, Iron Folic Acid
+  name        String // e.g. Paracetamol, ORS, Iron Folic Acid
   quantity    Int      @default(0)
-  unit        String   // e.g. tablets, packets, kits
+  unit        String // e.g. tablets, packets, kits
   workerId    String
   worker      Worker   @relation(fields: [workerId], references: [id])
   lastUpdated DateTime @updatedAt
+}
+
+model Message {
+  id           String  @id @default(uuid())
+  content      String
+  senderId     String // Could be Admin or Worker
+  receiverId   String // Could be Admin or Worker
+  senderType   String // 'ADMIN' or 'WORKER'
+  receiverType String // 'ADMIN' or 'WORKER'
+  isRead       Boolean @default(false)
+  reportId     String? // Link to a specific report if this is a forwarded report
+
+  createdAt DateTime @default(now())
+}
+
+
+model Report {
+  id        String   @id @default(uuid())
+  workerId  String
+  worker    Worker   @relation(fields: [workerId], references: [id])
+  date      DateTime @default(now())
+  content   Json // Detailed tasks and activities
+  createdAt DateTime @default(now())
 }

@@ -18,7 +18,7 @@ export default function LoginPage() {
             const result = await signInWithPopup(auth, googleProvider)
             const idToken = await result.user.getIdToken(true)
 
-            const res = await fetch('http://localhost:3001/api/auth/google', {
+            const res = await fetch('http://10.75.109.134:3001/api/auth/google', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ idToken })
@@ -46,7 +46,7 @@ export default function LoginPage() {
         setLoading(true)
         setError('')
         try {
-            const res = await fetch('http://localhost:3001/api/auth/login', {
+            const res = await fetch('http://10.75.109.134:3001/api/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
