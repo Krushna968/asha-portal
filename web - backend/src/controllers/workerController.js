@@ -37,6 +37,27 @@ const getWorkerProfile = async (req, res) => {
     }
 };
 
+const getWorkerRiskAlerts = async (req, res) => {
+    try {
+        const workerId = req.worker.id;
+        const alerts = await prisma.riskAlert.findMany({
+            where: {
+                workerId,
+                isApproved: true
+            },
+            include: {
+                patient: true
+            },
+            orderBy: { riskScore: 'desc' }
+        });
+        res.json(alerts);
+    } catch (error) {
+        console.error("getWorkerRiskAlerts error:", error);
+        res.status(500).json({ error: 'Failed to fetch risk alerts' });
+    }
+};
+
 module.exports = {
-    getWorkerProfile
+    getWorkerProfile,
+    getWorkerRiskAlerts
 };

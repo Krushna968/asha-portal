@@ -1,5 +1,5 @@
 const express = require('express');
-const { getWorkerProfile } = require('../controllers/workerController');
+const { getWorkerProfile, getWorkerRiskAlerts } = require('../controllers/workerController');
 const { requireAuth } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
@@ -8,6 +8,7 @@ const router = express.Router();
 router.use(requireAuth);
 
 router.get('/profile', getWorkerProfile);
+router.get('/risk-alerts', getWorkerRiskAlerts);
 router.get('/krushna', (req, res) => {
     res.json({
         id: 'krushna-rasal',

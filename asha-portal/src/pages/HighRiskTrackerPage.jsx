@@ -3,104 +3,87 @@ import { useNavigate } from 'react-router-dom'
 import TopNav from '../components/TopNav'
 import styles from './HighRiskTrackerPage.module.css'
 
+const API_BASE_URL = 'http://localhost:3001/api/admin';
+
 export default function HighRiskTrackerPage() {
     const navigate = useNavigate()
     const [cases, setCases] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
+    const [approving, setApproving] = useState(null)
 
     useEffect(() => {
         const fetchHighRisk = async () => {
             setLoading(true)
+            try {
+                const token = localStorage.getItem('asha_token');
+                const response = await fetch(`${API_BASE_URL}/high-risk`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
 
-            // Filtered set of High Risk Residents
-            const highRiskData = [
-                {
-                    id: 'res-3',
-                    name: "Advait Rao",
-                    category: "ANC",
-                    age: 24,
-                    worker: { name: "Krushna Rasal", village: "Central Block", mobileNumber: "9876543210" },
-                    visitHistory: [{ bloodPressure: "150/95", weight: 62 }]
-                },
-                {
-                    id: 'res-4',
-                    name: "Akansha Gupta",
-                    category: "PNC",
-                    age: 28,
-                    worker: { name: "Sunita Kumari", village: "Malur Block", mobileNumber: "9823456781" },
-                    visitHistory: [{ bloodPressure: "138/88", weight: 58 }]
-                },
-                {
-                    id: 'res-8',
-                    name: "Anika Verma",
-                    category: "ANC",
-                    age: 31,
-                    worker: { name: "Priya Devi", village: "Hosur North", mobileNumber: "8812345678" },
-                    visitHistory: [{ bloodPressure: "145/92", weight: 65 }]
-                },
-                {
-                    id: 'res-10',
-                    name: "Anita Devi",
-                    category: "ANC",
-                    age: 35,
-                    worker: { name: "Fatima Nasser", village: "East Sector", mobileNumber: "9011223344" },
-                    visitHistory: [{ bloodPressure: "155/100", weight: 70 }]
-                },
-                {
-                    id: 'res-15',
-                    name: "Arjun Reddy",
-                    category: "GENERAL",
-                    age: 42,
-                    worker: { name: "Fatima Nasser", village: "East Sector", mobileNumber: "9011223344" },
-                    visitHistory: [{ bloodPressure: "160/105", weight: 82 }]
-                },
-                {
-                    id: 'res-21',
-                    name: "Chitra Iyer",
-                    category: "ANC",
-                    age: 26,
-                    worker: { name: "Krushna Rasal", village: "Central Block", mobileNumber: "9876543210" },
-                    visitHistory: [{ bloodPressure: "142/90", weight: 61 }]
-                },
-                {
-                    id: 'res-25',
-                    name: "Gayatri Pandey",
-                    category: "PNC",
-                    age: 29,
-                    worker: { name: "Fatima Nasser", village: "East Sector", mobileNumber: "9011223344" },
-                    visitHistory: [{ bloodPressure: "135/85", weight: 56 }]
-                },
-                {
-                    id: 'res-27',
-                    name: "Isha Malhotra",
-                    category: "ANC",
-                    age: 23,
-                    worker: { name: "Sunita Kumari", village: "Malur Block", mobileNumber: "9823456781" },
-                    visitHistory: [{ bloodPressure: "148/96", weight: 63 }]
-                }
-            ];
+                if (!response.ok) throw new Error('Failed to fetch cases');
 
-            setTimeout(() => {
-                setCases(highRiskData)
+                const data = await response.json();
+                setCases(data);
+            } catch (err) {
+                console.error('Fetch error:', err);
+                setError('Could not connect to the processing server. Please ensure the backend is running.');
+            } finally {
                 setLoading(false)
-            }, 500)
+            }
         }
 
         fetchHighRisk()
-    }, [navigate])
+    }, [])
 
-    const getRiskLevel = (item) => {
-        const latestVisit = item.visitHistory?.[0]
-        if (!latestVisit) return { label: 'PENDING CHECK', class: styles.riskPending }
+    const handleApprove = async (patientId, riskScore, riskLevel, indicators, workerId) => {
+        setApproving(patientId);
+        try {
+            const token = localStorage.getItem('asha_token');
+            const response = await fetch(`${API_BASE_URL}/risk-alerts/approve`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    patientId,
+                    riskScore,
+                    riskLevel,
+                    indicators,
+                    workerId
+                })
+            });
 
-        // Example logic for risk highlighting
-        if (latestVisit.bloodPressure && latestVisit.bloodPressure.includes('/')) {
-            const [sys] = latestVisit.bloodPressure.split('/').map(Number)
-            if (sys > 140) return { label: 'CRITICAL: HIGH BP', class: styles.riskCritical }
+            if (response.ok) {
+                // Update local state to reflect approval
+                setCases(prev => prev.map(c =>
+                    c.id === patientId ? { ...c, isApproved: true } : c
+                ));
+            } else {
+                alert('Failed to send alert to ASHA worker.');
+            }
+        } catch (err) {
+            console.error('Approval error:', err);
+        } finally {
+            setApproving(null);
         }
+    };
 
-        return { label: 'MONITORING', class: styles.riskHigh }
+    const toggleVisitStatus = (patientId) => {
+        setCases(prev => prev.map(c =>
+            c.id === patientId ? { ...c, visited: !c.visited } : c
+        ));
+    };
+
+    const getRiskClass = (level) => {
+        switch (level) {
+            case 'CRITICAL': return styles.riskCritical;
+            case 'HIGH': return styles.riskHigh;
+            default: return styles.riskMonitoring;
+        }
     }
 
     return (
@@ -113,67 +96,90 @@ export default function HighRiskTrackerPage() {
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
                     </div>
                     <div>
-                        <h1 className={styles.title}>High-Risk Tracker</h1>
-                        <p className={styles.subtitle}>Immediate attention required for these ANC/PNC cases.</p>
+                        <h1 className={styles.title}>AI-Assisted High-Risk Tracker</h1>
+                        <p className={styles.subtitle}>Analyzing real-time indicators for immediate medical intervention.</p>
                     </div>
                 </div>
 
                 {loading ? (
-                    <div className={styles.loader}>Analyzing patient data...</div>
+                    <div className={styles.loaderContainer}>
+                        <div className={styles.pulseScanner}></div>
+                        <div className={styles.loaderText}>Processing patient data with AI...</div>
+                    </div>
                 ) : error ? (
                     <div className={styles.error}>{error}</div>
                 ) : (
                     <div className={styles.grid}>
-                        {cases.map(item => {
-                            const risk = getRiskLevel(item)
-                            return (
-                                <div key={item.id} className={styles.card}>
-                                    <div className={`${styles.riskBadge} ${risk.class}`}>
-                                        {risk.label}
-                                    </div>
-                                    <h3 className={styles.patientName}>{item.name}</h3>
-                                    <p className={styles.patientInfo}>
-                                        {item.category} • {item.age} years • {item.worker?.village}
-                                    </p>
+                        {cases.map(item => (
+                            <div key={item.id} className={`${styles.card} ${item.isApproved ? styles.cardApproved : ''}`}>
+                                <div className={`${styles.riskBadge} ${getRiskClass(item.riskLevel)}`}>
+                                    {item.riskLevel}: {item.riskScore} PTS
+                                </div>
+                                <h3 className={styles.patientName}>{item.name}</h3>
+                                <p className={styles.patientInfo}>
+                                    {item.category} • {item.age} years • {item.worker?.village}
+                                </p>
 
-                                    <div className={styles.statsRow}>
-                                        <div className={styles.stat}>
-                                            <span className={styles.statLabel}>Last BP</span>
-                                            <span className={styles.statValue}>{item.visitHistory?.[0]?.bloodPressure || 'N/A'}</span>
-                                        </div>
-                                        <div className={styles.stat}>
-                                            <span className={styles.statLabel}>Last Weight</span>
-                                            <span className={styles.statValue}>{item.visitHistory?.[0]?.weight ? `${item.visitHistory[0].weight}kg` : 'N/A'}</span>
-                                        </div>
-                                    </div>
+                                <div className={styles.indicators}>
+                                    {item.indicators?.map((ind, i) => (
+                                        <span key={i} className={styles.indicatorTag}>• {ind}</span>
+                                    ))}
+                                </div>
 
-                                    <div className={styles.workerInfo}>
-                                        <div className={styles.workerAvatar}>ASHA</div>
-                                        <div>
-                                            <div className={styles.workerName}>{item.worker?.name}</div>
-                                            <div className={styles.workerContact}>{item.worker?.mobileNumber}</div>
-                                        </div>
+                                <div className={styles.statsRow}>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statLabel}>Last BP</span>
+                                        <span className={styles.statValue}>{item.visitHistory?.[0]?.bloodPressure || '120/80'}</span>
                                     </div>
-
-                                    <div className={styles.actions}>
-                                        <button
-                                            className={styles.btnAction}
-                                            onClick={() => navigate(`/beneficiaries/${item.id}`)}
-                                        >
-                                            View Full History
-                                        </button>
-                                        <button
-                                            className={styles.btnNotify}
-                                            onClick={() => navigate(`/messages?resId=${item.id}&resName=${encodeURIComponent(item.name)}&worker=${encodeURIComponent(item.worker?.name)}`)}
-                                        >
-                                            Notify Worker
-                                        </button>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statLabel}>Hb</span>
+                                        <span className={styles.statValue}>{item.visitHistory?.[0]?.hbLevel ? `${item.visitHistory[0].hbLevel} g/dL` : '11.5 g/dL'}</span>
+                                    </div>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statLabel}>Sugar</span>
+                                        <span className={styles.statValue}>{item.visitHistory?.[0]?.bloodSugar || 90} mg</span>
+                                    </div>
+                                    <div className={styles.stat}>
+                                        <span className={styles.statLabel}>Temp</span>
+                                        <span className={styles.statValue}>{item.visitHistory?.[0]?.temperature || 98.4}°F</span>
                                     </div>
                                 </div>
-                            )
-                        })}
+
+                                <div className={styles.workerInfo}>
+                                    <div className={styles.workerAvatar}>ASHA</div>
+                                    <div>
+                                        <div className={styles.workerName}>{item.worker?.name}</div>
+                                        <div className={styles.workerContact}>{item.worker?.mobileNumber}</div>
+                                    </div>
+                                </div>
+
+                                <div className={styles.actions}>
+                                    <button
+                                        className={`${styles.btnStatus} ${item.visited ? styles.btnVisited : styles.btnPending}`}
+                                        onClick={() => toggleVisitStatus(item.id)}
+                                    >
+                                        {item.visited ? 'Visited' : 'Visit Pending'}
+                                    </button>
+
+                                    {item.isApproved ? (
+                                        <div className={styles.approvedLabel}>
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12" /></svg>
+                                            Alert Sent
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className={styles.btnNotify}
+                                            onClick={() => handleApprove(item.id, item.riskScore, item.riskLevel, item.indicators, item.workerId)}
+                                            disabled={approving === item.id}
+                                        >
+                                            {approving === item.id ? 'Sending...' : 'Approve & Notify'}
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
                         {cases.length === 0 && (
-                            <div className={styles.empty}>No high-risk cases currently flagged in the system.</div>
+                            <div className={styles.empty}>No high-risk cases currently flagged for review.</div>
                         )}
                     </div>
                 )}

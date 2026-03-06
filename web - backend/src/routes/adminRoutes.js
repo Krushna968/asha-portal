@@ -6,6 +6,8 @@ const {
     getAllBeneficiaries,
     getBeneficiaryById,
     getHighRiskBeneficiaries,
+    getRiskAlerts,
+    approveRiskAlert,
     getAllTasks,
     createGlobalTask,
     getGlobalInventory,
@@ -31,6 +33,8 @@ router.get('/beneficiaries', getAllBeneficiaries);
 router.get('/beneficiaries/:id', getBeneficiaryById);
 
 router.get('/high-risk', getHighRiskBeneficiaries);
+router.get('/risk-alerts', getRiskAlerts);
+router.post('/risk-alerts/approve', approveRiskAlert);
 
 // Task Management
 router.get('/tasks', getAllTasks);

@@ -42,6 +42,7 @@ model Worker {
   households       Household[]
   learningProgress LearningProgress[]
   reports          Report[]
+  riskAlerts       RiskAlert[]
 }
 
 model Patient {
@@ -58,6 +59,7 @@ model Patient {
   worker       Worker         @relation(fields: [workerId], references: [id])
   household    Household?     @relation(fields: [householdId], references: [id])
   visitHistory VisitHistory[]
+  riskAlerts   RiskAlert[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
@@ -130,10 +132,26 @@ model VisitHistory {
   weight        Float?
   bloodSugar    Float?
   temperature   Float?
+  hbLevel       Float?   // Hemoglobin level
   notes         String?
   isHouseClosed Boolean  @default(false)
   worker        Worker   @relation(fields: [workerId], references: [id])
   patient       Patient  @relation(fields: [patientId], references: [id])
+}
+
+model RiskAlert {
+  id             String   @id @default(uuid())
+  patientId      String
+  patient        Patient  @relation(fields: [patientId], references: [id])
+  riskScore      Float
+  riskLevel      String   // 'CRITICAL', 'HIGH', 'MONITORING'
+  indicators     Json     // e.g. { bp: "150/95", hb: "10.5", reason: "High BP" }
+  isApproved     Boolean  @default(false)
+  approvedBy     String?  // Admin ID
+  workerId       String
+  worker         Worker   @relation(fields: [workerId], references: [id])
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model InventoryItem {
